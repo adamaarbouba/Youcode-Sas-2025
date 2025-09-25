@@ -1,0 +1,33 @@
+## Exercises on Functions in C
+
+### Challenge 1: Sum Function
+
+Write a C function that takes two integers as parameters and returns their sum. Create a main program that uses this function to display the sum of two numbers.
+
+### Challenge 2: Multiplication Function
+
+Write a C function that takes two integers as parameters and returns their product. Create a main program that uses this function to display the product of two numbers.
+
+### Challenge 3: Maximum Function
+
+Write a C function that takes two integers as parameters and returns the larger of the two. Create a main program that uses this function to display the maximum between two numbers.
+
+### Challenge 4: Minimum Function
+
+Write a C function that takes two integers as parameters and returns the smaller of the two. Create a main program that uses this function to display the minimum between two numbers.
+
+### Challenge 5: Factorial Function
+
+Write a C function that calculates the factorial of a positive integer. The function must take an integer as a parameter and return its factorial. Create a main program that uses this function to display the factorial of a given number.
+
+### Challenge 6: Fibonacci Function
+
+Write a C function that calculates the nth term of the Fibonacci sequence. The function must take an integer as a parameter and return the nth term. Create a main program that uses this function to display the requested Fibonacci term.
+
+### Challenge 7: String Reversal Function
+
+Write a C function that reverses a string. The function must take a string as a parameter and return the reversed string. Create a main program that uses this function to display a reversed string.
+
+### Challenge 8: Parity Check Function
+
+Write a C function that checks whether an integer is even or odd. The function must take an integer as a parameter and return `1` if the integer is even and `0` if it is odd. Create a main program that uses this function to display whether a number is even or odd.

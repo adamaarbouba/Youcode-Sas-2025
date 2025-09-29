@@ -10,7 +10,7 @@ int main()
     for (int i = 0; i < n; i++)
     {
         /* code */
-        for (int j = 0; j < n; j++)
+        for (int j = 9; j > 0; j--)
         {
             /* code */
             x = arr[j];

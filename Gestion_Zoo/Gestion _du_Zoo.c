@@ -17,6 +17,13 @@ struct zoo
     int age;
     char habitat[50];
     float poids;
+    char Diet[50];
+};
+
+struct Swap
+{
+    char espece[50];
+    int count;
 };
 
 int n_id = 21;
@@ -25,30 +32,46 @@ int loop = 1;
 int user_input;
 
 struct zoo Zoon[200] = {
-    {1, "Simba", "Lion", 5, "Savane", 190.5},
-    {2, "Nala", "Lion", 4, "Savane", 175.0},
-    {3, "ShereKhan", "Tigre", 8, "Jungle", 220.3},
-    {4, "Baloo", "Ours", 12, "Forêt", 310.0},
-    {5, "Raja", "Éléphant", 15, "Savane", 540.7},
-    {6, "Marty", "Zèbre", 6, "Savane", 300.2},
-    {7, "Gloria", "Hippopotame", 10, "Rivière", 450.0},
-    {8, "Alex", "Lion", 7, "Savane", 200.0},
-    {9, "Julien", "Lémurien", 3, "Jungle", 12.5},
-    {10, "Melman", "Girafe", 9, "Savane", 390.8},
-    {11, "Timon", "Suricate", 2, "Désert", 1.2},
-    {12, "Pumbaa", "Phacochère", 5, "Savane", 120.0},
-    {13, "Scar", "Lion", 11, "Savane", 210.4},
-    {14, "Kaa", "Serpent", 6, "Jungle", 45.0},
-    {15, "Iko", "Perroquet", 4, "Jungle", 2.1},
-    {16, "Dumbo", "Éléphant", 3, "Savane", 320.0},
-    {17, "Kiki", "Chien sauvage", 7, "Savane", 25.0},
-    {18, "Donatello", "Tortue", 40, "Rivière", 90.5},
-    {19, "Polly", "Oiseau", 5, "Jungle", 1.5},
-    {20, "Kong", "Gorille", 13, "Jungle", 180.0}};
+    {1, "Simba", "Lion", 5, "Savane", 190.5, "Carnivore"},
+    {2, "Nala", "Lion", 4, "Savane", 175.0, "Carnivore"},
+    {3, "ShereKhan", "Tigre", 8, "Jungle", 220.3, "Carnivore"},
+    {4, "Baloo", "Ours", 12, "Forêt", 310.0, "Omnivore"},
+    {5, "Raja", "Éléphant", 15, "Savane", 540.7, "Herbivore"},
+    {6, "Marty", "Zèbre", 6, "Savane", 300.2, "Herbivore"},
+    {7, "Gloria", "Hippopotame", 10, "Rivière", 450.0, "Herbivore"},
+    {8, "Alex", "Lion", 7, "Savane", 200.0, "Carnivore"},
+    {9, "Julien", "Lémurien", 2, "Jungle", 12.5, "Herbivore"},
+    {10, "Melman", "Girafe", 9, "Savane", 390.8, "Herbivore"},
+    {11, "Timon", "Suricate", 2, "Désert", 1.2, "Omnivore"},
+    {12, "Pumbaa", "Phacochère", 5, "Savane", 120.0, "Omnivore"},
+    {13, "Scar", "Lion", 11, "Savane", 210.4, "Carnivore"},
+    {14, "Kaa", "Serpent", 6, "Jungle", 45.0, "Carnivore"},
+    {15, "Iko", "Perroquet", 4, "Jungle", 2.1, "Herbivore"},
+    {16, "Dumbo", "Éléphant", 3, "Savane", 320.0, "Herbivore"},
+    {17, "Kiki", "Chien sauvage", 7, "Savane", 25.0, "Carnivore"},
+    {18, "Donatello", "Tortue", 40, "Rivière", 90.5, "Herbivore"},
+    {19, "Polly", "Oiseau", 5, "Jungle", 1.5, "Herbivore"},
+    {20, "Kong", "Gorille", 13, "Jungle", 180.0, "Omnivore"}};
+
+int Clear()
+{
+    int user;
+    char newline;
+    if (scanf("%d%c", &user, &newline) == 2 && newline == '\n')
+    {
+        return user;
+    }
+    else
+    {
+        while (getchar() != '\n')
+            ;
+        return -1;
+    }
+}
 
 void Nline()
 {
-    while ((getchar() != '\n'))
+    while (getchar() != '\n')
         ;
 }
 
@@ -57,17 +80,31 @@ int Menu()
     printf("\n_____________________/Zooo\\______________________\n");
     printf("|                                               |\n");
     printf("|____________________|Menu|_____________________|\n");
+    printf("|                                               |\n");
     printf("|[1]-Ajouter un animal                          |\n");
+    printf("|                                               |\n");
     printf("|[2]-Afficher les animaux                       |\n");
+    printf("|                                               |\n");
     printf("|[3]-Modifier un animal                         |\n");
+    printf("|                                               |\n");
     printf("|[4]-Supprimer un animal                        |\n");
+    printf("|                                               |\n");
     printf("|[5]-Rechercher un animal                       |\n");
+    printf("|                                               |\n");
     printf("|[6]-Statistiques.                              |\n");
-    printf("|[7]-Quite.                                     |\n");
+    printf("|                                               |\n");
+    printf("|[7]-Save In a CVS File.                        |\n");
+    printf("|                                               |\n");
+    printf("|[8]-Quit.                                      |\n");
     printf("|_______________________________________________|\n");
-    printf("\nEntre un choix:");
-    scanf("%d", &user_input);
-    Nline();
+    printf("\nEntre un choix: ");
+
+    user_input = Clear();
+
+    if (user_input == -1)
+    {
+        return 0;
+    }
     return user_input;
 }
 
@@ -110,6 +147,8 @@ void Sorting(int choix)
                 swap = Zoon[j].age > Zoon[j + 1].age;
             else if (choix == 3)
                 swap = strcmp(Zoon[j].habitat, Zoon[j + 1].habitat) > 0;
+            else if (choix == 4)
+                swap = strcmp(Zoon[j].Diet, Zoon[j + 1].Diet) > 0; // NEW
 
             if (swap)
             {
@@ -125,13 +164,19 @@ void AjoutPlus()
 {
     int chose;
     printf("\n_______________|Adding_Animals|_________________\n");
+    printf("|                                               |\n");
     printf("|[1]-Ajouter Simple                             |\n");
+    printf("|                                               |\n");
     printf("|[2]-Ajouter multiplue                          |\n");
+    printf("|                                               |\n");
     printf("|[3]-Back To the Main Menu                      |\n");
     printf("|_______________________________________________|\n");
     printf("\nEntre un choix:");
-    scanf("%d", &chose);
-    Nline();
+
+    chose = Clear();
+    if (chose == -1)
+    {
+    }
 
     if (chose == 1)
     {
@@ -154,30 +199,42 @@ void AjoutPlus()
 
 void aff(int i)
 {
-    printf("__________________[%d]____________________\n", i);
-    printf("The Animal's name " RED " %s\n" RESET, Zoon[i].nom);
-    printf("The species" YELLOW " %s | " RESET, Zoon[i].espece);
-    printf("The habitat " YELLOW "%s\n" RESET, Zoon[i].habitat);
-    printf("The weight " GREEN "%.2f | " RESET, Zoon[i].poids);
-    printf("The age " GREEN "%d | " RESET, Zoon[i].age);
-    printf("The id " GREEN "%d\n" RESET, Zoon[i].ID);
+    printf("============== Animal Number [%d] ==============\n", i + 1);
+    printf(RED "Name:      %-15s\n" RESET, Zoon[i].nom);
+    printf(YELLOW "Species:   %-18s | Habitat: %-12s\n" RESET, Zoon[i].espece, Zoon[i].habitat);
+    printf(GREEN "Weight:    %-7.2f | Age: %-3d | ID: %-3d\n" RESET, Zoon[i].poids, Zoon[i].age, Zoon[i].ID);
+    printf(GREEN "Diet:      %-15s\n" RESET, Zoon[i].Diet);
+    if (Zoon[i].age > 10)
+    {
+        printf(RED "Warning\nOld Age\n" RESET);
+    }
+    printf("===============================================\n");
 }
+
 void Aff()
 {
     int chose;
     printf("\n_____________________/Zooo\\______________________\n");
     printf("|                                               |\n");
-    printf("|____________________|Menu|_____________________|\n");
-    printf("|[1]-Display by Name                            |\n");
-    printf("|[2]-Display by ID                              |\n");
-    printf("|[3]-Display by Age                             |\n");
-    printf("|[4]-Display by Habitat                         |\n");
-    printf("|[5]-Back To the Main Menu                      |\n");
+    printf("|____________________| Menu |___________________|\n");
+    printf("|                                               |\n");
+    printf("|[1]- Display by Name                           |\n");
+    printf("|                                               |\n");
+    printf("|[2]- Display by ID                             |\n");
+    printf("|                                               |\n");
+    printf("|[3]- Display by Age                            |\n");
+    printf("|                                               |\n");
+    printf("|[4]- Display by Habitat                        |\n");
+    printf("|                                               |\n");
+    printf("|[5]- Display by Diet                           |\n");
+    printf("|                                               |\n");
+    printf("|[6]- Back To the Main Menu                     |\n");
     printf("|_______________________________________________|\n");
-    printf("\nEntre un choix:");
-    scanf("%d", &chose);
-    Nline();
-
+    printf("\nEnter your choice: ");
+    chose = Clear();
+    if (chose == -1)
+    {
+    }
     if (chose >= 1 && chose <= 4)
     {
         if (nb_animal == 0)
@@ -192,28 +249,52 @@ void Aff()
     }
     else if (chose == 5)
     {
+        if (nb_animal == 0)
+        {
+            printf(RED "No animals in the zoo.\n" RESET);
+            return;
+        }
+        char looking_for[50];
+        printf("\nWhat Habitat you looking for : ");
+        scanf("%s", looking_for);
+        Nline();
+        printf("\n");
+        for (int i = 0; i < nb_animal; i++)
+        {
+            if (strcmp(Zoon[i].habitat, looking_for) == 0)
+                aff(i);
+        }
+    }
+    else if (chose == 6)
+    {
+        return;
     }
     else
     {
         printf(RED "Invalid choice!\n" RESET);
     }
 
-    printf("\n<================================||n");
+    printf("\n<================================\n");
 }
 
 void Search()
 {
     int choice;
     printf("\n____________________|Search Menu|_________________\n");
+    printf("|                                                 |\n");
     printf("|[1]-Search by ID                                 |\n");
+    printf("|                                                 |\n");
     printf("|[2]-Search by Name                               |\n");
+    printf("|                                                 |\n");
     printf("|[3]-Search by Species                            |\n");
+    printf("|                                                 |\n");
     printf("|[4]-Back to Main Menu                            |\n");
     printf("|_________________________________________________|\n");
     printf("Enter a choice: ");
-    scanf("%d", &choice);
-    Nline();
-
+    choice = Clear();
+    if (choice == -1)
+    {
+    }
     if (choice == 1)
     {
         int id;
@@ -231,7 +312,7 @@ void Search()
             }
         }
         if (!found)
-            printf("No animal found with ID %d\n", id);
+            printf(RED "No animal found with ID %d\n" RESET, id);
     }
     else if (choice == 2)
     {
@@ -249,7 +330,7 @@ void Search()
             }
         }
         if (!found)
-            printf("No animal found with name %s\n", name);
+            printf(RED "No animal found with name %s\n" RESET, name);
     }
     else if (choice == 3)
     {
@@ -267,8 +348,9 @@ void Search()
             }
         }
         if (!found)
-            printf("No animal found with species %s\n", species);
+            printf(RED "No animal found with species %s\n" RESET, species);
     }
+    printf("\n<================================\n");
 }
 
 void Supprimer()
@@ -281,9 +363,10 @@ void Supprimer()
 
     int id;
     printf("Enter the ID of the animal to delete: ");
-    scanf("%d", &id);
-    Nline();
-
+    id = Clear();
+    if (id == -1)
+    {
+    }
     int found;
     int is_found = 0;
 
@@ -299,7 +382,7 @@ void Supprimer()
 
     if (!is_found)
     {
-        printf(RED "No animal found with ID %d\n" RESET, id);
+        printf(RED "No animal found with This ID \n" RESET);
         return;
     }
 
@@ -309,7 +392,6 @@ void Supprimer()
     char confirm;
     printf("Are you sure you want to delete this animal? (y/n): ");
     scanf(" %c", &confirm);
-    Nline();
 
     if (confirm == 'y')
     {
@@ -322,7 +404,46 @@ void Supprimer()
     }
     else
     {
-        printf("Deletion cancelled.\n");
+        printf(RED "\nDeletion cancelled.\n" RESET);
+    }
+    printf("\n<================================\n");
+}
+
+void CountHabitat()
+{
+    struct Swap temp;
+
+    int flag = 0;
+    int count = 0;
+
+    for (int i = 0; i < nb_animal; i++)
+    {
+        count = 1;
+        for (int j = i + 1; j < nb_animal; j++)
+        {
+
+            if (strcmp(Zoon[i].espece, Zoon[j].espece) == 0)
+            {
+                count++;
+            }
+        }
+        if (count > flag)
+        {
+            flag = count;
+            strcpy(temp.espece, Zoon[i].espece);
+            temp.count = flag;
+        }
+    }
+    printf("===============================================\n");
+    printf(YELLOW "Species:   %-18d | Habitat: %-12s\n" RESET, flag, temp.espece);
+    printf("===============================================\n");
+
+    for (int i = 0; i < nb_animal; i++)
+    {
+        if (strcmp(temp.espece, Zoon[i].espece) == 0)
+        {
+            aff(i);
+        }
     }
 }
 
@@ -330,9 +451,10 @@ void Modifier()
 {
     int id;
     printf("Enter the ID of the animal to modify: ");
-    scanf("%d", &id);
-    Nline();
-
+    id = Clear();
+    if (id == -1)
+    {
+    }
     int found = -1;
     for (int i = 0; i < nb_animal; i++)
     {
@@ -355,20 +477,15 @@ void Modifier()
     printf("Enter new name: ");
     scanf("%s", Zoon[found].nom);
     Nline();
-    printf("Enter new species: ");
-    scanf("%s", Zoon[found].espece);
-    Nline();
     printf("Enter new age: ");
     scanf("%d", &Zoon[found].age);
     Nline();
     printf("Enter new habitat: ");
     scanf("%s", Zoon[found].habitat);
     Nline();
-    printf("Enter new weight: ");
-    scanf("%f", &Zoon[found].poids);
-    Nline();
 
-    printf("Animal modified successfully.\n");
+    printf("\nAnimal modified successfully.\n");
+    printf("\n<================================\n");
 }
 
 void Stats()
@@ -396,12 +513,63 @@ void Stats()
 
     float Avg_age = total_age / nb_animal;
 
-    printf("________________________________________________\n");
-    printf("|Total animals: %d                              |\n", nb_animal);
-    printf("|Average age: %.2f                              |\n", Avg_age);
-    printf("|Older aged Animal: %d                          |\n", max_age);
-    printf("|Younger aged Animal: %d                         |\n", min_age);
+    printf(" _______________________________________________\n");
+    printf("|                                               |\n");
+    printf("|               Zoo Statistics                  |\n");
     printf("|_______________________________________________|\n");
+    printf("| Total animals   : %-27d|\n", nb_animal);
+    printf("| Average age     : %-27.2f|\n", Avg_age);
+    printf("|_______________________________________________|\n\n");
+
+    printf(" _______________________________________________\n");
+    printf("|                                               |\n");
+    printf("|              Youngest Animals                 |\n");
+    printf("|_______________________________________________|\n");
+    for (int i = 0; i < nb_animal; i++)
+    {
+        if (Zoon[i].age == min_age)
+        {
+            aff(i);
+        }
+    }
+
+    printf(" _______________________________________________\n");
+    printf("|                                               |\n");
+    printf("|               Oldest Animals                  |\n");
+    printf("|_______________________________________________|\n");
+    for (int i = 0; i < nb_animal; i++)
+    {
+        if (Zoon[i].age == max_age)
+        {
+            aff(i);
+        }
+    }
+
+    printf(" _______________________________________________\n");
+    printf("|                                               |\n");
+    printf("|             Habitat Statistics                |\n");
+    printf("|_______________________________________________|\n");
+    CountHabitat();
+}
+
+void File()
+{
+    FILE *file = fopen("Gestion_Zoo.csv", "w");
+    if (file == NULL)
+    {
+        printf("The file didnt get created\n");
+    }
+    else
+        printf("The file was created successfully\n");
+    for (int i = 0; i < nb_animal; i++)
+    {
+        fprintf(file, "Name:      %s\n", Zoon[i].nom);
+        fprintf(file, "Species:   %s | Habitat: %s\n", Zoon[i].espece, Zoon[i].habitat);
+        fprintf(file, "Weight:    %.2f | Age: %d | ID: %d\n", Zoon[i].poids, Zoon[i].age, Zoon[i].ID);
+        fprintf(file, "Diet:      %s\n", Zoon[i].Diet);
+    }
+
+    fclose(file);
 }
 
 int main()
@@ -413,7 +581,6 @@ int main()
         {
             return 0;
         }
-        /* code */
         user_input = Menu();
         switch (user_input)
         {
@@ -436,8 +603,11 @@ int main()
             Stats();
             break;
         case 7:
+            File();
+            break;
+        case 8:
             loop = 0;
-            printf(MAGENTA "\n~Good Bey~!\n" RESET);
+            printf(MAGENTA "\033[1m~Good Bey~!\033[0m\n" RESET);
             break;
 
         default:

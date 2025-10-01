@@ -2,6 +2,7 @@
 
 int main()
 {
+    printf("The size of your table : \n");
     int n;
 
     scanf("%d", &n);
@@ -9,6 +10,7 @@ int main()
     int tab[n];
     for (int i = 0; i < n; i++)
     {
+        printf("the Number [%d] in Your table: \n", i + 1);
         scanf("%d", &tab[i]);
     }
 
@@ -28,6 +30,6 @@ int main()
     }
     for (int i = 0; i < n; i++)
     {
-        printf("%d\n", tab[i]);
+        printf("tab[%d]%d\n", i + 1,tab[i]);
     }
 }

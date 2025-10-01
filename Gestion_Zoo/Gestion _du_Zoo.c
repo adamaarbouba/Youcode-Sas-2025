@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
-#include <stdbool.h>
 
 #define RED "\x1b[31m"
 #define GREEN "\x1b[32m"
@@ -57,7 +55,8 @@ void Nline()
 int Menu()
 {
     printf("\n_____________________/Zooo\\______________________\n");
-    printf("\n____________________|Menu|______________________\n");
+    printf("|                                               |\n");
+    printf("|____________________|Menu|_____________________|\n");
     printf("|[1]-Ajouter un animal                          |\n");
     printf("|[2]-Afficher les animaux                       |\n");
     printf("|[3]-Modifier un animal                         |\n");
@@ -66,7 +65,7 @@ int Menu()
     printf("|[6]-Statistiques.                              |\n");
     printf("|[7]-Quite.                                     |\n");
     printf("|_______________________________________________|\n");
-    printf("Entre un choix:");
+    printf("\nEntre un choix:");
     scanf("%d", &user_input);
     Nline();
     return user_input;
@@ -94,62 +93,25 @@ void Ajout()
     nb_animal++;
 }
 
-void SortingName()
+void Sorting(int choix)
 {
     struct zoo temp;
     for (int i = 0; i < nb_animal - 1; i++)
     {
         for (int j = 0; j < nb_animal - i - 1; j++)
         {
-            if (strcmp(Zoon[j].nom, Zoon[j + 1].nom) > 0)
-            {
-                temp = Zoon[j];
-                Zoon[j] = Zoon[j + 1];
-                Zoon[j + 1] = temp;
-            }
-        }
-    }
-}
-void SortingID()
-{
-    struct zoo temp;
-    for (int i = 0; i < nb_animal - 1; i++)
-    {
-        for (int j = 0; j < nb_animal - i - 1; j++)
-        {
-            if (Zoon[j].ID > Zoon[j + 1].ID)
-            {
-                temp = Zoon[j];
-                Zoon[j] = Zoon[j + 1];
-                Zoon[j + 1] = temp;
-            }
-        }
-    }
-}
-void SortingAge()
-{
-    struct zoo temp;
-    for (int i = 0; i < nb_animal - 1; i++)
-    {
-        for (int j = 0; j < nb_animal - i - 1; j++)
-        {
-            if (Zoon[j].age > Zoon[j + 1].age)
-            {
-                temp = Zoon[j];
-                Zoon[j] = Zoon[j + 1];
-                Zoon[j + 1] = temp;
-            }
-        }
-    }
-}
-void SortingHabitat()
-{
-    struct zoo temp;
-    for (int i = 0; i < nb_animal - 1; i++)
-    {
-        for (int j = 0; j < nb_animal - i - 1; j++)
-        {
-            if (strcmp(Zoon[j].habitat, Zoon[j + 1].habitat) > 0)
+            int swap = 0;
+
+            if (choix == 0)
+                swap = strcmp(Zoon[j].nom, Zoon[j + 1].nom) > 0;
+            else if (choix == 1)
+                swap = Zoon[j].ID > Zoon[j + 1].ID;
+            else if (choix == 2)
+                swap = Zoon[j].age > Zoon[j + 1].age;
+            else if (choix == 3)
+                swap = strcmp(Zoon[j].habitat, Zoon[j + 1].habitat) > 0;
+
+            if (swap)
             {
                 temp = Zoon[j];
                 Zoon[j] = Zoon[j + 1];
@@ -167,7 +129,7 @@ void AjoutPlus()
     printf("|[2]-Ajouter multiplue                          |\n");
     printf("|[3]-Back To the Main Menu                      |\n");
     printf("|_______________________________________________|\n");
-    printf("Entre un choix:");
+    printf("\nEntre un choix:");
     scanf("%d", &chose);
     Nline();
 
@@ -204,6 +166,7 @@ void Aff()
 {
     int chose;
     printf("\n_____________________/Zooo\\______________________\n");
+    printf("|                                               |\n");
     printf("|____________________|Menu|_____________________|\n");
     printf("|[1]-Display by Name                            |\n");
     printf("|[2]-Display by ID                              |\n");
@@ -211,53 +174,28 @@ void Aff()
     printf("|[4]-Display by Habitat                         |\n");
     printf("|[5]-Back To the Main Menu                      |\n");
     printf("|_______________________________________________|\n");
-    printf("Entre un choix:");
+    printf("\nEntre un choix:");
     scanf("%d", &chose);
     Nline();
 
-    if (chose == 1)
+    if (chose >= 1 && chose <= 4)
     {
         if (nb_animal == 0)
         {
-            printf("There is no animals in the Zoo\n");
+            printf(RED "No animals in the zoo.\n" RESET);
             return;
         }
-        SortingName();
+
+        Sorting(chose - 1);
         for (int i = 0; i < nb_animal; i++)
             aff(i);
     }
-    else if (chose == 2)
+    else if (chose == 5)
     {
-        if (nb_animal == 0)
-        {
-            printf("There is no animals in the Zoo\n");
-            return;
-        }
-        SortingID();
-        for (int i = 0; i < nb_animal; i++)
-            aff(i);
     }
-    else if (chose == 3)
+    else
     {
-        if (nb_animal == 0)
-        {
-            printf("There is no animals in the Zoo\n");
-            return;
-        }
-        SortingAge();
-        for (int i = 0; i < nb_animal; i++)
-            aff(i);
-    }
-    else if (chose == 4)
-    {
-        if (nb_animal == 0)
-        {
-            printf("There is no animals in the Zoo\n");
-            return;
-        }
-        SortingHabitat();
-        for (int i = 0; i < nb_animal; i++)
-            aff(i);
+        printf(RED "Invalid choice!\n" RESET);
     }
 
     printf("\n<================================||n");
@@ -337,7 +275,7 @@ void Supprimer()
 {
     if (nb_animal == 0)
     {
-        printf("There are no animals to delete.\n");
+        printf(RED "There are no animals to delete.\n" RESET);
         return;
     }
 
@@ -346,19 +284,22 @@ void Supprimer()
     scanf("%d", &id);
     Nline();
 
-    int found = 0;
+    int found;
+    int is_found = 0;
+
     for (int i = 0; i < nb_animal; i++)
     {
         if (Zoon[i].ID == id)
         {
             found = i;
+            is_found = 1;
             break;
         }
     }
 
-    if (found == 0)
+    if (!is_found)
     {
-        printf("No animal found with ID %d\n", id);
+        printf(RED "No animal found with ID %d\n" RESET, id);
         return;
     }
 
@@ -404,7 +345,7 @@ void Modifier()
 
     if (found == -1)
     {
-        printf("No animal found with ID %d\n", id);
+        printf(RED "No animal found with ID %d\n" RESET, id);
         return;
     }
 
@@ -434,23 +375,33 @@ void Stats()
 {
     if (nb_animal == 0)
     {
-        printf("No animals in the zoo.\n");
+        printf(RED "No animals in the zoo.\n" RESET);
         return;
     }
 
-    int total_age = 0;
-    float total_weight = 0;
+    float total_age = 0;
+    int min_age = Zoon[0].age;
+    int max_age = Zoon[0].age;
 
     for (int i = 0; i < nb_animal; i++)
     {
         total_age += Zoon[i].age;
-        total_weight += Zoon[i].poids;
+
+        if (Zoon[i].age < min_age)
+            min_age = Zoon[i].age;
+
+        if (Zoon[i].age > max_age)
+            max_age = Zoon[i].age;
     }
-    float Min_age = total_age / nb_animal;
-    float Min_weight = total_weight / nb_animal;
-    printf("Total animals: %d\n", nb_animal);
-    printf("Average age: %.2f\n", Min_age);
-    printf("Average weight: %.2f\n", Min_weight);
+
+    float Avg_age = total_age / nb_animal;
+
+    printf("________________________________________________\n");
+    printf("|Total animals: %d                              |\n", nb_animal);
+    printf("|Average age: %.2f                              |\n", Avg_age);
+    printf("|Older aged Animal: %d                          |\n", max_age);
+    printf("|Younger aged Animal: %d                         |\n", min_age);
+    printf("|_______________________________________________|\n");
 }
 
 int main()
@@ -458,6 +409,10 @@ int main()
 
     while (loop)
     {
+        if (nb_animal == 199)
+        {
+            return 0;
+        }
         /* code */
         user_input = Menu();
         switch (user_input)
@@ -482,10 +437,11 @@ int main()
             break;
         case 7:
             loop = 0;
+            printf(MAGENTA "\n~Good Bey~!\n" RESET);
             break;
 
         default:
-            printf("invalide input...\n");
+            printf(RED "\ninvalide input...\n" RESET);
             break;
         }
     }
